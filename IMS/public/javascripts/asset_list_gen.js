@@ -1,7 +1,5 @@
 $(document).ready(function() {
 
-	//$('#note').hide();
-
 	const ref = firebase.database().ref();
 	const assetRef = ref.child('asset-list');
 

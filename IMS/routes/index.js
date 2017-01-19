@@ -13,6 +13,7 @@ var config = {
 firebase.initializeApp(config);
 
 var session;
+var assetname;
 var ref = firebase.database().ref();
 
 /* Get the Home page */
@@ -23,7 +24,7 @@ router.get('/admin', function(req,res) {
 });
 
 /* View details of the asset and assign if free */
-/*router.get('/admin/asset/:assetname', function(req,res) {
+router.get('/admin/asset/:assetname', function(req,res) {
 
 	var assetname = req.params.assetname;
 	var data;
@@ -37,50 +38,64 @@ router.get('/admin', function(req,res) {
 		.limitToFirst(1)
 		.on('value', function(snap) {
 			data = snap.val();
-			//console.log(data);
+			console.log(data);
 
-		var keys = Object.keys(data);
-		var key = keys[0];
+			var keys = Object.keys(data);
+			var key = keys[0];
+
+			sn = data[key].serialNum;
+			code = data[key].andelaCode;
+			date = data[key].datePurchased;
+
+			res.render('view_asset', { title:'Asset Details',
+									   asset_name: assetname,
+									   serial_number: sn,
+									   andela_code: code,
+									   date_purchased: date });
+
 		});
-		sn = data[key].serialNum;
-		code = data[key].andelaCode;
-		date = data[key].datePurchased;
 
-		res.render('view_asset', { title:'Asset Details',
-								   asset_name: assetname,
-								   serial_number: sn,
-								   andela_code: code,
-								   date_purchased: date });
+});
 
+/*router.get('/admin/asset/:assetname', function(req,res) {
 
-});*/
-
-router.get('/admin/asset/:assetname', function(req,res) {
-
-	var assetname = req.params.assetname;
+	assetname = req.params.assetname;
 
 	res.render('view_asset', { title:'Asset Details',
 							   asset_name: assetname });
 
 });
-
-router.post('/admin/asset/:assetname', function(req,res) {
-
+*/
+router.post('/admin/asset/:assetname', function(req, res) {
+	console.log('check if called');
 	var assetname = req.body.asset;
 	var code = req.body.andelacode;
 	var ass_by = req.body.assigner;
 	var ass_to = req.body.assignee;
 	var time = req.body.duration;
 
-	var assignRef = ref.child('assignedItems').push({
+	var itemRef = ref.child('assignedItems').push({
 		asset: assetname,
 		andelacode: code,
 		assigner: ass_by,
 		assignee: ass_to,
 		duration: time
 	});
-	res.redirect('/admin');
 
+	itemRef.then(function() {
+			console.log('a ggtfr4tg');
+			throw new Error('error');
+
+			var update_assetRef = ref.child('asset-list').update({ availability: 'in-use' });
+			update_assetRef.then(function() { 
+				console.log('a random');
+				res.redirect('/admin');
+			});
+	});
+	itemRef.catch(function(e) {
+		console.log('Error is: ' + e.stack);
+	});
+	
 });
 
 /* GET log in page. */
@@ -93,23 +108,39 @@ router.get('/', function(req, res) {
 
 
 router.post('/', function(req, res) {
+	//Create user authentication
 
-/*	session = req.session;
-	if (req.body.email == 'admin' && req.body.password == 'admin') {
-		session.userId = req.body.email;
-	}
-	//console.log(session.userId);
+	var email = req.body.email;
+	var pass = req.body.password;
+	const auth = firebase.auth();
 
-	 res.redirect('/redirects');
-});
+	const promise = auth.signInWithEmailAndPassword(email, pass);
 
-router.get('/redirects', function(req, res) {
-	if (session.userId) {
-		res.redirect('/admin');
-	}
-	else {
-		res.redirect('/');
-	}*/
+	promise
+	.then(function(user) {
+      console.log('accepted');
+      res.redirect('/admin');
+
+      console.log('Success!');
+    });
+    promise
+	.catch(function(e) {
+		console.log(e.message);
+      	res.status(500).send({message: 'Login Failed'});
+      	res.redirect('/');
+	});
+/*
+	firebase.auth().OnAuthStateChanged(function(user, err) {
+		if (user) {
+			//redirect user to home page
+			console.log(success);
+			res.redirect('/admin');
+		}
+		else {
+			console.log('Error signing in' + err);
+		}
+	});*/
+
 });
 
 /* Get the create new admin page */
@@ -120,13 +151,25 @@ router.get('/admin/new', function(req, res) {
 
 router.post('/admin/new', function(req, res, next) {
 
-	var user = req.body.email;
-	var pwd = req.body.password;
+	var email = req.body.email;
+	var pass = req.body.password;
 
 	var adminRef = ref.child('Admin').push({
-		email: user,
-		password: pwd 
-	}); 
+		email: email,
+		password: pass 
+	});
+
+	const auth = firebase.auth();
+
+	const promise = auth.createUserWithEmailAndPassword(email, pass);
+	promise
+	.then(function() {
+		res.redirect('/admin');
+	});
+	promise
+	.catch(function(e) {
+		console.log(e.message);
+	});
 });
 
 
@@ -154,14 +197,10 @@ router.post('/admin/asset', function(req,res) {
 
 /* Log out page */
 router.get('/logout',function(req,res){
-	session = req.session;
-	session.destroy(function(err) {
-	  if(err) {
-	    console.log(err);
-	  } else {
-	    res.redirect('/');
-	  }
-	});
+
+	const auth = firebase.auth().signOut();
+	
+	res.redirect('/');
 });
 
 module.exports = router;
