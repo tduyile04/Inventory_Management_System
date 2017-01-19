@@ -1,0 +1,63 @@
+<!doctype html>
+
+<html>
+	<head>
+		<% include partials/template/head.ejs %>
+	</head>
+	<body>
+		<div class="container">
+
+		<% include partials/template/header.ejs %>
+
+			<div class="content">
+
+				<h2>Welcome to your <em>admin</em></h2>
+
+				<div class="row" id="add-new-asset">
+					<div class="col-sm-2">
+						<select class="form-control">
+							<option value="1" selected>All</option>
+							<option value="2">Assigned</option>
+							<option value="3">Unassigned</option>
+						</select>
+					</div>
+
+					<div class="col-sm-offset-8 col-sm-2">
+						<a href="/admin/asset" class="btn btn-primary">Add new Asset</a>
+					</div>
+				</div><!-- add-new-asset -->
+
+				<table class="table table-striped" id="assets-list">
+					<tr>
+						<th>S/N</th>
+						<th>Assets</th>
+						<th>Availability</th>
+						<th>Info</th>
+						<th>Delete</th>
+					</tr>
+
+					<tr>
+						<td id="sn">1</td>
+						<td id="assets"></td>
+						<td id="availability">Availability</td>
+						<td id="info"><a href="">View</a></td>
+						<td id="delete"><a href="">delete</a></td>	
+					</tr>
+				</table>
+
+			<div class="row" id="add-new-asset">
+				<div class="col-sm-offset-10 col-sm-2">
+					<a href="/admin/asset" class="btn btn-primary">Add new Asset</a>
+				</div>
+			</div><!-- add-new-asset -->
+
+			</div><!-- content -->
+		
+		</div><!-- container -->
+
+		<% include partials/template/jsdefaults.ejs %>
+		<% include partials/template/footer.ejs %>
+
+		<script src="script/app.js"></script>
+	</body>
+</html>
