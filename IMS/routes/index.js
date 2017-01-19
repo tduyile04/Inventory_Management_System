@@ -31,8 +31,9 @@ router.get('/admin/asset/:assetname', function(req,res) {
 	var sn;
 	var code;
 	var date;
+	var desc;
 
-	assetRef = ref.child('asset-list');
+	var assetRef = ref.child('asset-list');
 	assetRef.orderByChild('assetName')
 		.equalTo(assetname)
 		.limitToFirst(1)
@@ -46,26 +47,19 @@ router.get('/admin/asset/:assetname', function(req,res) {
 			sn = data[key].serialNum;
 			code = data[key].andelaCode;
 			date = data[key].datePurchased;
+			desc = data[key]['description'];
 
 			res.render('view_asset', { title:'Asset Details',
 									   asset_name: assetname,
 									   serial_number: sn,
 									   andela_code: code,
-									   date_purchased: date });
+									   date_purchased: date,
+									   description: desc });
 
 		});
 
 });
 
-/*router.get('/admin/asset/:assetname', function(req,res) {
-
-	assetname = req.params.assetname;
-
-	res.render('view_asset', { title:'Asset Details',
-							   asset_name: assetname });
-
-});
-*/
 router.post('/admin/asset/:assetname', function(req, res) {
 	console.log('check if called');
 	var assetname = req.body.asset;
@@ -74,22 +68,30 @@ router.post('/admin/asset/:assetname', function(req, res) {
 	var ass_to = req.body.assignee;
 	var time = req.body.duration;
 
-	var itemRef = ref.child('assignedItems').push({
-		asset: assetname,
-		andelacode: code,
-		assigner: ass_by,
-		assignee: ass_to,
-		duration: time
+	var itemRef = ref.child('Assigned Items').push({
+		Asset: assetname,
+		Andelacode: code,
+		Assigner: ass_by,
+		Assignee: ass_to,
+		Duration: time
 	});
 
 	itemRef.then(function() {
-			console.log('a ggtfr4tg');
-			throw new Error('error');
+		ref.child('asset-list')
+			.orderByChild('assetName')
+			.equalTo(assetname)
+			.limitToFirst(1)
+			.on('value', function(snap) {
+				data = snap.val();
+				console.log(data);
 
-			var update_assetRef = ref.child('asset-list').update({ availability: 'in-use' });
-			update_assetRef.then(function() { 
-				console.log('a random');
+				var keys = Object.keys(data);
+				var key = keys[0];
+
+				var update_assetRef = ref.child('asset-list').child(key).update({ availability: 'in-use' });
+				update_assetRef.then(function() { 
 				res.redirect('/admin');
+				});
 			});
 	});
 	itemRef.catch(function(e) {
