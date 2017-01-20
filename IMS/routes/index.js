@@ -17,14 +17,14 @@ var assetname;
 var ref = firebase.database().ref();
 
 /* Get the Home page */
-router.get('/admin', function(req,res) {
+router.get('/', function(req,res) {
 
 	res.render('index', {title: 'Home'});
 
 });
 
 /* View details of the asset and assign if free */
-router.get('/admin/asset/:assetname', function(req,res) {
+router.get('/asset/:assetname', function(req,res) {
 
 	var assetname = req.params.assetname;
 	var data;
@@ -54,16 +54,20 @@ router.get('/admin/asset/:assetname', function(req,res) {
 									   serial_number: sn,
 									   andela_code: code,
 									   date_purchased: date,
-									   description: desc });
+									   description: desc,
+									   set: assetname,
+									   a_code: code });
 
 		});
 
 });
 
-router.post('/admin/asset/:assetname', function(req, res) {
+/* View details of the asset and assign if free */
+router.post('/asset/:assetname', function(req, res) {
 	console.log('check if called');
 	var assetname = req.body.asset;
 	var code = req.body.andelacode;
+
 	var ass_by = req.body.assigner;
 	var ass_to = req.body.assignee;
 	var time = req.body.duration;
@@ -90,7 +94,7 @@ router.post('/admin/asset/:assetname', function(req, res) {
 
 				var update_assetRef = ref.child('asset-list').child(key).update({ availability: 'in-use' });
 				update_assetRef.then(function() { 
-				res.redirect('/admin');
+				res.redirect('/');
 				});
 			});
 	});
@@ -100,16 +104,29 @@ router.post('/admin/asset/:assetname', function(req, res) {
 	
 });
 
+/* Delete from the asset list */
+router.get('/delete/:assetname', function(req, res) {
+	var assetname = req.params.assetname;
+
+	ref.child('asset-list')
+		.orderByChild('assetName')
+		.equalTo(assetname)
+		.limitToFirst(1)
+		.on('child_added', function(snap) {
+			snap.ref.remove();
+	});
+	res.redirect('/');
+});
+
 /* GET log in page. */
-router.get('/', function(req, res) {
+router.get('/login', function(req, res) {
 
   res.render('login', { title: 'Log In Page' });
 
 });
 
-
-
-router.post('/', function(req, res) {
+/* log into the site. */
+router.post('/login', function(req, res) {
 	//Create user authentication
 
 	var email = req.body.email;
@@ -120,38 +137,41 @@ router.post('/', function(req, res) {
 
 	promise
 	.then(function(user) {
-      console.log('accepted');
-      res.redirect('/admin');
+		auth.onAuthStateChanged(function(user) {
+	    	if (user != null) {
+				console.log('Success');
+				res.redirect('./');
+			} else {
+				console.log('Failed');
+				res.redirect('/login')
+			}
 
-      console.log('Success!');
+		});
     });
-    promise
+
+    
+
+	promise
 	.catch(function(e) {
 		console.log(e.message);
-      	res.status(500).send({message: 'Login Failed'});
-      	res.redirect('/');
+      	//res.status(500).send({message: 'Login Failed'});
+      	res.redirect('/login');
 	});
-/*
-	firebase.auth().OnAuthStateChanged(function(user, err) {
-		if (user) {
-			//redirect user to home page
-			console.log(success);
-			res.redirect('/admin');
-		}
-		else {
-			console.log('Error signing in' + err);
-		}
-	});*/
 
+
+});
+/* Get the create new admin page */
+router.get('/admin', function(req, res) {
+	res.render('admin_list', {title: 'Manage Admin'});
 });
 
 /* Get the create new admin page */
-router.get('/admin/new', function(req, res) {
+router.get('/new', function(req, res) {
 
 	res.render('new_admin', { title: 'New Admin'});
 });
-
-router.post('/admin/new', function(req, res, next) {
+/* create new admin page */
+router.post('/new', function(req, res, next) {
 
 	var email = req.body.email;
 	var pass = req.body.password;
@@ -166,7 +186,7 @@ router.post('/admin/new', function(req, res, next) {
 	const promise = auth.createUserWithEmailAndPassword(email, pass);
 	promise
 	.then(function() {
-		res.redirect('/admin');
+		res.redirect('/');
 	});
 	promise
 	.catch(function(e) {
@@ -176,10 +196,10 @@ router.post('/admin/new', function(req, res, next) {
 
 
 /*Get the create new asset page*/
-router.get('/admin/asset', function(req, res) {
+router.get('/asset', function(req, res) {
 	res.render('new_asset', {title: 'New asset'});
 });
-router.post('/admin/asset', function(req,res) {
+router.post('/asset', function(req,res) {
 	var asset = req.body.assetname;
 	var serial = req.body.serialnumber;
 	var andela_code = req.body.andelacode;
@@ -194,7 +214,7 @@ router.post('/admin/asset', function(req,res) {
 		description: desc,
 		availability: 'free'
 	});
-	res.redirect('/admin');
+	res.redirect('/');
 });
 
 /* Log out page */
@@ -202,7 +222,7 @@ router.get('/logout',function(req,res){
 
 	const auth = firebase.auth().signOut();
 	
-	res.redirect('/');
+	res.redirect('/login');
 });
 
 module.exports = router;

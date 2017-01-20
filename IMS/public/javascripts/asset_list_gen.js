@@ -1,5 +1,6 @@
 $(document).ready(function() {
 
+	//Generates the list data for the table rows
 	const ref = firebase.database().ref();
 	const assetRef = ref.child('asset-list');
 
@@ -20,11 +21,12 @@ $(document).ready(function() {
 			  '<td>'+ count +'</td>'+
 		      '<td>' + assets[k].assetName + '</td>' +
 		      '<td>' + assets[k].availability + '</td>' +
-		      '<td><a class="view" href="/admin/asset/' + assets[k].assetName + '"' + '>' + "view" + '</a></td>' +
-		      '<td><a href="">' + "delete" + '</a></td>' +
-		      '</tr>');    
+		      '<td><a class="view" href="/asset/' + assets[k].assetName + '"' + '>' + "view" + '</a></td>' +
+		      '<td><a class="delete" href="/delete/' + assets[k].assetName + '"' + '>' + "delete" + '</a></td>' +
+/*		      '<td><a href="">' + "delete" + '</a></td>' +
+*/		      '</tr>');    
 			
-			$('table > tbody:last').append($row);
+			$('#assets-list > tbody:last').append($row);
 		}
 	});
 

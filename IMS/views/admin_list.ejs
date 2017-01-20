@@ -1,0 +1,33 @@
+<!doctype html>
+
+<html>
+	<head>
+		<% include partials/template/head.ejs %>
+	</head>
+	<body>
+		<div class="container">
+
+		<% include partials/template/header.ejs %>
+
+			<div class="content">
+
+				<h2>Manage Admin</h2>
+
+				<table class="table table-striped" id="admin-list">
+					<tr>
+						<th>S/N</th>
+						<th>Email</th>
+						<th>Edit</th>
+						<th>Delete</th>
+					</tr>
+				</table>
+
+			</div><!-- content -->
+		
+		</div><!-- container -->
+
+		<% include partials/template/jsdefaults.ejs %>
+		<% include partials/template/footer.ejs %>
+
+	</body>
+</html>

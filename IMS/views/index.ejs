@@ -11,19 +11,19 @@
 
 			<div class="content">
 
-				<h2>Welcome to your <em>admin</em></h2>
+				<h2 style="color: #555">Welcome to your <em>admin</em></h2>
 
 				<div class="row" id="add-new-asset">
 					<div class="col-sm-2">
 						<select class="form-control">
-							<option value="1" selected>All</option>
-							<option value="2">Assigned</option>
-							<option value="3">Unassigned</option>
+							<option value="all" selected>All</option>
+							<option value="in-use">Assigned</option>
+							<option value="free">Unassigned</option>
 						</select>
 					</div>
 
 					<div class="col-sm-offset-8 col-sm-2">
-						<a href="/admin/asset" class="btn btn-primary">Add new Asset</a>
+						<a href="/asset" class="btn btn-primary">Add new Asset</a>
 					</div>
 				</div><!-- add-new-asset -->
 
@@ -35,21 +35,7 @@
 						<th>Info</th>
 						<th>Delete</th>
 					</tr>
-
-					<tr>
-						<td id="sn">1</td>
-						<td id="assets"></td>
-						<td id="availability">Availability</td>
-						<td id="info"><a href="">View</a></td>
-						<td id="delete"><a href="">delete</a></td>	
-					</tr>
 				</table>
-
-			<div class="row" id="add-new-asset">
-				<div class="col-sm-offset-10 col-sm-2">
-					<a href="/admin/asset" class="btn btn-primary">Add new Asset</a>
-				</div>
-			</div><!-- add-new-asset -->
 
 			</div><!-- content -->
 		
@@ -58,6 +44,5 @@
 		<% include partials/template/jsdefaults.ejs %>
 		<% include partials/template/footer.ejs %>
 
-		<script src="script/app.js"></script>
 	</body>
 </html>

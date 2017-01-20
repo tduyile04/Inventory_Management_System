@@ -1,14 +1,14 @@
-<section class="well">
+<section class="well well_design_bottom">
 	<form method="post">
 
 		<div class="form-group">
 			<label for="asset">Asset</label>
-			<input type="text" class="form-control" name="asset" id="asset">
+			<input type="text" class="form-control" name="asset" id="asset" value="<%= set %>">
 		</div>
 
 		<div class="form-group">
 			<label for="andelacode">Andela Code</label>
-			<input type="text" class="form-control" name="andelacode" id="andelacode">
+			<input type="text" class="form-control" name="andelacode" id="andelacode" value="<%= a_code %>">
 		</div>
 
 		<div class="form-group">
@@ -24,7 +24,7 @@
 		<div class="form-group">
 			<label for="duration">Asset Duration</label>
 			<input type="text" class="form-control" name="duration" id="duration">
-			<p style="color: blue;">This is the valid time the asset is required to be in the hands of the assignee</p>
+			<p style="color: #555">This is the valid time the asset is required to be in the hands of the assignee</p>
 		</div>
 
 		<div class="form-group">
