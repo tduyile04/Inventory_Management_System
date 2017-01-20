@@ -1,0 +1,37 @@
+<!doctype html>
+
+<html>
+	<head>
+		<% include partials/template/head.ejs %>
+	</head>
+	<body>
+
+		<section class="well" id="new-admin">
+
+		<% include partials/template/header.ejs %>
+
+			<h1>Add new admin</h1>
+
+			<form method="post">
+				<div class="form-group">
+					<label for="email">Username</label>
+					<input type="text" class="form-control" name="email" id="email" placeholder="firstname.lastname@andela.com">
+				</div>
+
+				<div class="form-group">
+					<label for="name">Password</label>
+					<input type="password" class="form-control" name="password" id="password">
+				</div>
+
+
+				<div class="form-group">
+					<button type="submit" class="btn btn-success form-control" id ="create" ">Create</button>
+				</div>
+
+			</form>
+
+		</section><!-- well -->
+
+		<% include partials/template/footer.ejs %>
+	</body>
+</html>

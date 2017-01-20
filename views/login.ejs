@@ -1,0 +1,53 @@
+<!doctype html>
+
+<html>
+	<head>
+		<% include partials/template/head.ejs %>
+	</head>
+	<body>
+		<div class="container">
+			<section class="text-center" style="color: #555">
+				<h2>Inventory Management System</h2>
+				<h4><em>The effiecient way to manage your assets...</em></h4>
+			</section>
+			<div class="row login-row">
+				<div class="col-md-4 text-center" id="display-logo">
+					<img src="/images/ims1.jpg" alt="logo" class="pull-left" id="ims-logo">
+				</div><!-- col-sm-5 -->
+
+				<div class="col-md-6 pull-right">
+					<h1 style="color: #555">Sign In</h1>
+					
+					<form method="post">
+						<div class="form-group">
+							<label for="email" style="color: #555">Email</label>
+							<input type="text" class="form-control" name="email" id="email" placeholder="firstname.lastname@andela.com">
+						</div>
+
+						<div class="form-group">
+							<label for="name" style="color: #555">Password</label>
+							<input type="password" class="form-control" name="password" id="password">
+						</div>
+
+
+						<div class="form-group">
+							<button type="submit" class="btn btn-success form-control" name="login" id="login">Sign In</button>
+						</div>
+
+						<article id="term">
+							<h5>
+								By signing in, you agree to our <a href="">Terms</a> and confirm that you have read our <a href="">Data Policy</a>, including our <a href="">Cookie Use Policy</a>. You may receive SMS message notifications from our admin and can opt out at any time.
+							</h5>
+						</article>					
+
+					</form>
+				</div><!-- col-sm-5 -->
+			</div><!-- row -- >
+			
+
+		</div><!-- container -->
+
+		<% include partials/template/jsdefaults.ejs %>
+		<% include partials/template/footer.ejs %>
+	</body>
+</html>

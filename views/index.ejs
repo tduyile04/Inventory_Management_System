@@ -1,0 +1,48 @@
+<!doctype html>
+
+<html>
+	<head>
+		<% include partials/template/head.ejs %>
+	</head>
+	<body>
+		<div class="container">
+
+		<% include partials/template/header.ejs %>
+
+			<div class="content">
+
+				<h2 style="color: #555">Welcome to your <em>admin</em></h2>
+
+				<div class="row" id="add-new-asset">
+					<div class="col-sm-2">
+						<select class="form-control">
+							<option value="all" selected>All</option>
+							<option value="in-use">Assigned</option>
+							<option value="free">Unassigned</option>
+						</select>
+					</div>
+
+					<div class="col-sm-offset-8 col-sm-2">
+						<a href="/asset" class="btn btn-primary">Add new Asset</a>
+					</div>
+				</div><!-- add-new-asset -->
+
+				<table class="table table-striped" id="assets-list">
+					<tr>
+						<th>S/N</th>
+						<th>Assets</th>
+						<th>Availability</th>
+						<th>Info</th>
+						<th>Delete</th>
+					</tr>
+				</table>
+
+			</div><!-- content -->
+		
+		</div><!-- container -->
+
+		<% include partials/template/jsdefaults.ejs %>
+		<% include partials/template/footer.ejs %>
+
+	</body>
+</html>

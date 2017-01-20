@@ -1,0 +1,53 @@
+<!doctype html>
+
+<html>
+	<head>
+		<% include partials/template/head.ejs %>
+	</head>
+	<body>
+		<section class="well well_design">
+
+		<% include partials/template/header.ejs %>
+
+			<h1>Add new asset</h1>
+
+			<form method="post">
+				<!--Asset Name, Description, Serial Number, Andela Serial Code, Date bought -->
+				<div class="form-group">
+					<label for="assetname">Asset name</label>
+					<input type="text" class="form-control" name="assetname" id="assetname">
+				</div>
+
+				<div class="form-group">
+					<label for="serialnumber">Serial Number</label>
+					<input type="text" class="form-control" name="serialnumber" id="serialnumber">
+				</div>
+
+				<div class="form-group">
+					<label for="andelacode">Andela Code</label>
+					<input type="text" class="form-control" name="andelacode" id="andelacode">
+				</div>
+
+				<div class="form-group">
+					<label for="datebought">Date Purchased</label>
+					<input type="text" class="form-control" name="datebought" id="datebought">
+				</div>
+
+				<div class="form-group">
+					<label for="description">Description</label>
+					<textarea type="submit" class="form-control" name="description" id="description"></textarea>
+				</div>
+
+				<div class="form-group">
+					<button type="submit" class="btn btn-success">Archive</button>
+				</div>
+
+			</form>
+
+		</section><!-- well -->
+
+		<% include partials/template/footer.ejs %>
+
+		<script src="script/app.js"></script>
+	</body>
+</html>

@@ -1,0 +1,56 @@
+body {
+  padding: 50px;
+  font: 14px "Helvetica Neue", "Lucida Grande", Helvetica, Arial, sans-serif;
+}
+
+a {
+  color: #00B7FF;
+}
+
+.content {
+	margin-top: 10px;
+}
+#assets-list {
+	margin-top: 10px;
+}
+#term > h5 {
+	color: #555;
+	font-size: 12px;
+}
+#display-logo > h2 {
+	margin-left: 30%;
+}
+#ims-logo {
+	margin-left: 0;
+}
+.login-row {
+	margin-top: 15px;
+}
+#new-admin {
+	margin-top: 80px;
+	margin-left: auto;
+	margin-right: auto;
+	width: 60%;
+}
+
+.well_design {
+	margin-top: 80px;
+	margin-left: auto;
+	margin-right: auto;
+	width: 60%;
+}
+.well_design_bottom {
+	margin-top: 40px;
+	margin-left: auto;
+	margin-right: auto;
+	width: 60%;
+}
+
+#nav-menu {
+	margin-top: 5px;
+}
+
+#add-new-asset {
+	margin-top: 20px;
+	margin-bottom: 20px;
+}
